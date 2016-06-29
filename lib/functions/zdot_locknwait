@@ -1,0 +1,93 @@
+#!/usr/bin/env zsh
+#
+# takes 3 arguemnts
+#	$1	the lockfile to wait for or to create (required)
+#	$2	the granularity (optional, default is 1 second)
+#	$3	the timeout (optional, default is infinite)
+
+if [ -z "$1" ]; then
+ echo
+ echo "zdot_locknwait - a shellfunction to create a lockfile or wait for one"
+ echo "                 to vanish"
+ echo
+ echo " SYNOPSIS:"
+ echo "    zdot_locknwait <lockfilename> [<granularity>] [<timeout>]"
+ echo 
+ echo " Where:"
+ echo "    <lockfilename>      The name of the lockfile"
+ echo "    <granularity>       How fast the lockfile's presence is being rechecked"
+ echo "                        (Default is 1 second)"
+ echo "    <timeout>           How long to wait before giving up (Default is infinite)"
+ echo " You must remove the generated lockfile manually, zdot_locknwait() won't"
+ echo " do it for you" 
+ echo
+ exit
+else
+	LOCKFILE=$1
+fi
+
+if ! [ -z $2 ]; then
+    [ $2 -ge 0 ] || { echo "invalid granularity" ; return 1 }
+    GRANULARITY=$2
+else
+    GRANULARITY=1
+fi
+
+if ! [ -z $3 ]; then
+    [ $3 -ge 0 ] || { echo "invalid timeout" ; return 1 }
+    TIMEOUT=$3
+else
+    TIMEOUT=""
+fi
+
+# introduce some randomness to avoid conflicts when doing massive locking
+# in parallel
+case $ZDOT_OS_SHORT in
+    OSX|Linux|FreeBSD|NetBSD|OpenBSD)
+	sleep $(( $RANDOM / 80000.0 ))
+    ;;
+    *)
+	# damn SunOS
+	true
+    ;;
+esac
+
+# The actual locking process. Inspired by
+# http://dan.hersam.com/docs/cus-faq.html#8
+
+TMPFILE=/tmp/$$-$RANDOM-${LOCKFILE##*/}
+if ! touch $TMPFILE ; then
+	echo "zdot_locknwait(): ERROR: /tmp is not writeable"
+	return 1
+fi
+if [ -z $TIMEOUT ]; then
+	while [ -h $LOCKFILE ]; do
+		sleep $GRANULARITY
+	done
+	ln -s $TMPFILE $LOCKFILE ; RET=$? ; rm $TMPFILE
+	if [ $RET -ne 0 ]; then
+		echo "zdot_locknwait(): ERROR: unable to write lockfile $LOCKFILE"
+		return 1
+	fi
+else
+	SLEPT=0
+	while [ -h $LOCKFILE ]; do
+		sleep $GRANULARITY
+		SLEPT=$(($SLEPT + $GRANULARITY))
+	   	if [ $SLEPT -gt $TIMEOUT ]; then
+			echo -n "zdot_locknwait(): timeout reached, trying to remove lockfile by force: "
+			rm -rf $1 1>&2 > /dev/null
+			if [ $? = 0 ]; then
+				echo success
+			else
+				echo failed
+				return 1
+			fi
+		fi
+	done
+	ln -s $TMPFILE $LOCKFILE ; RET=$? ; rm $TMPFILE
+	if [ $RET -ne 0 ]; then
+		echo "zdot_locknwait(): ERROR: unable to write lockfile $LOCKFILE"
+		return 1
+	fi
+fi

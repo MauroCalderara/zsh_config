@@ -1,0 +1,93 @@
+#!/usr/bin/env zsh
+#
+# This function serves as a small prompt library. It
+# sets PS1, and optionally PS2, PS3, PS4 and RPS1 
+# for a given prompt style
+
+case X$ZDOT_PROMPT_STYLE in
+  X)
+    PS1='%m%#'
+  ;;
+  Xgentoo)
+    case $ZDOT_ID in
+      root)
+        PS1="%B%{${fg[red]}%}%m%{${fg[blue]}%} %13<...<%~ #%b "
+      ;;
+      *)
+        PS1="%B%{${fg[green]}%}%n@%m%{${fg[blue]}%} %13<...<%~ $%b "
+      ;;
+    esac
+  ;;
+  Xfancy*)
+    if [ $ZDOT_PROMPT_STYLE = fancy_dark_bg ]; then
+      HNCOLOR=${fg_bold[white]}
+      PCOLOR=${fg_bold[black]}
+    else
+      HNCOLOR=${fg[black]}
+      PCOLOR=${fg_bold[black]}
+    fi
+    case $ZDOT_ID in
+      root)
+        PS1="%B%{${fg[red]}%}%n%b@%B%{${HNCOLOR}%}%m%{${PCOLOR}%}:%24<...<%~%# %{${fg[red]}%}%(?..[%?%\] )% %b"
+      ;;      
+      *)
+        PS1="%B%{${fg[blue]}%}%n%b@%B%{${BLACK}%}%m%{${PCOLOR}%}:%24<...<%~%# %{${fg[red]}%}%(?..[%?%\] )% %b"
+      ;;
+    esac
+    case $ZDOT_OS_SHORT in
+      Linux)
+        RPS_CONTENT="$ZDOT_OS_DISTRO $ZDOT_OS_RELEASE"
+        RPS_CONTENT=${RPS_CONTENT%%" "}
+      ;;
+      FreeBSD)
+        RPS_CONTENT="$ZDOT_OS ${ZDOT_OS_RELEASE%%-*}"
+      ;;
+      *)
+        RPS_CONTENT="$ZDOT_OS $ZDOT_OS_RELEASE"
+      ;;
+    esac
+    setopt TRANSIENTRPROMPT
+    RPS1="%B%{${fg[black]}%}[$RPS_CONTENT]%b"
+    RPS1_BACKUP="$RPS1"
+    unset RPS_CONTENT BLACK
+
+    SPROMPT="Correct $fg[red]%R$reset_color to $fg[green]%r?$reset_color (Yes, No, Abort, Edit) "
+  ;;
+esac
+
+if [ "$ZDOT_GIT_PROMPT" = "yes" -a \
+     -r $ZDOT_USER/external/zsh-git-prompt/zshrc.sh ]; then
+
+    [ -x "$ZDOT_USER/external/zsh-git-prompt/src/.bin/gitstatus" ] && \
+        GIT_PROMPT_EXECUTABLE="haskell"
+
+    source $ZDOT_USER/external/zsh-git-prompt/zshrc.sh
+
+    # Configuration of the git prompt
+    ZSH_THEME_GIT_PROMPT_PREFIX="[%{$fg_bold[red]%}git%{${reset_color}%}|"
+    ZSH_THEME_GIT_PROMPT_SUFFIX="]"
+    ZSH_THEME_GIT_PROMPT_SEPARATOR="|"
+    ZSH_THEME_GIT_PROMPT_BRANCH="%{$fg_bold[blue]%}"
+    ZSH_THEME_GIT_PROMPT_STAGED="%{$fg[red]%}%{●%G%}"
+    ZSH_THEME_GIT_PROMPT_CONFLICTS="%{$fg[red]%}%{✖%G%}"
+    ZSH_THEME_GIT_PROMPT_CHANGED="%{$fg[blue]%}%{✚%G%}"
+    ZSH_THEME_GIT_PROMPT_BEHIND="%{↓%G%}"
+    ZSH_THEME_GIT_PROMPT_AHEAD="%{↑%G%}"
+    ZSH_THEME_GIT_PROMPT_UNTRACKED="%{…%G%}"
+    ZSH_THEME_GIT_PROMPT_CLEAN="%{$fg_bold[green]%}%{✔%G%}"
+
+    function zdot_update_rprompt() {
+        GIT_PROMPT="$(git_super_status)"
+        if [ -z "$GIT_PROMPT" ]; then
+            RPS1="$RPS1_BACKUP"
+        else
+            RPS1="$GIT_PROMPT"
+        fi
+    }
+
+    autoload -U add-zsh-hook
+    add-zsh-hook precmd zdot_update_rprompt
+    add-zsh-hook chpwd zdot_update_rprompt
+
+fi
+        

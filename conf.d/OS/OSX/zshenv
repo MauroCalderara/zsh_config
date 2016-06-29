@@ -1,0 +1,11 @@
+# Select according to distribution
+#
+
+# Some general OSX stuff could directly in this file
+
+# MacPorts
+[ -d /opt/local ] && export PATH="$PATH:/opt/local/bin:/opt/local/sbin"
+
+# Local directives
+[ -r $ZDOT_USER/conf.d/OS/OSX/zshenv.local ] && \
+            . $ZDOT_USER/conf.d/OS/OSX/zshenv.local

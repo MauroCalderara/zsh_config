@@ -1,0 +1,32 @@
+# $ZDOT_USER/conf.d/prompt
+#
+# The file containing the definition of the prompts
+#
+# Do:
+#	- export the prompt-variables
+#		PS1		    the prompt
+#		RPS1        the right promt
+#		PS2		    prompt in case of unfinished lines
+#		PS3		    prompt of the select-mechanism
+#		PS4		    prompt in case of XTRACE
+#		SRPROMPT    prompt for command correction
+#
+#	- set options regarding the prompt (e.g. TRANSIENTRPROMPT)
+#
+# Do not:
+#	- set anything else in here
+#
+
+# This set of dotfiles comes with a small library of prompts
+# to select from:
+#   fancy
+#   standard
+#   gentoo
+#   grml
+ZDOT_GIT_PROMPT=yes
+ZDOT_PROMPT_STYLE=fancy_dark_bg 
+
+# load the prompt from the ``library''
+zdot_prompts
+
+setopt interactivecomments # allow comments on the prompt

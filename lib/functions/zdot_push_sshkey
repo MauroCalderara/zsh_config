@@ -1,0 +1,57 @@
+#!/usr/bin/env zsh
+#
+# zdot_push_sshkey
+#
+# A function that copies an ssh key to a remote host's .ssh/authorized_keys
+#
+# Syntax: zdot_push [identity_file] user@host
+
+if ! [ $# = 1 -o $# = 2 ]; then
+  cat << EOF
+
+  zdot_push_sshkey
+
+  A function that appends an ssh key to a remote host's 
+  ~/.ssh/authorized_keys.
+
+  Syntax: zdot_push_sshkey [identity_file] user@host
+
+  If no identity_file is specified, first .ssh/id_dsa.pub is checked
+  and used. If .ssh/id_rsa.pub exists as well, id_rsa.pub will be used.
+  Otherwise the first existing of ~/.ssh/<identity_file>.pub, 
+  ~/.ssh/<identity_file>, <identity_file>.pub and <identity_file> will
+  be used.
+
+  All files containing private keys will be rejected.
+
+EOF
+  return 0
+fi
+
+# determine the key file
+ID_FILE=""
+if [ $# = 1 ]; then
+    [ -r "$HOME"/.ssh/id_dsa.pub ] && ID_FILE="$HOME"/.ssh/id_dsa.pub
+    [ -r "$HOME"/.ssh/id_rsa.pub ] && ID_FILE="$HOME"/.ssh/id_rsa.pub
+    TARGET="$1"
+else
+    ID_FILE_NAME="$1"
+    [ -r "$ID_FILE_NAME" ] && ID_FILE="$ID_FILE_NAME"
+    [ -r "$ID_FILE_NAME".pub ] && ID_FILE="$ID_FILE_NAME".pub
+    [ -r "$HOME"/.ssh/"$ID_FILE_NAME" ] && \
+        ID_FILE="$HOME"/.ssh/"$ID_FILE_NAME"
+    [ -r "$HOME"/.ssh/"$ID_FILE_NAME".pub ] && \
+        ID_FILE="$HOME"/.ssh/"$ID_FILE_NAME".pub
+    TARGET="$2"
+fi
+if [ -z "$ID_FILE" ]; then
+    echo "ERROR: no identity file specified and no suitable default found"
+    return 1
+elif grep -q "\-----BEGIN " "$ID_FILE"; then
+    echo "ERROR: identity file $ID_FILE seems to be a private key"
+    return 1
+fi
+
+# Do it all in one shot
+TMP_FILE=/tmp/.zdot_push_sshkey.tmp.$$
+cat $ID_FILE | ssh $TARGET "cat > $TMP_FILE; if ! [ -d ~/.ssh ]; then mkdir ~/.ssh && chmod 700 ~/.ssh; fi ; if [ -f ~/.ssh/authorized_keys ]; then grep -q \"$(tail -n1 $ID_FILE)\" .ssh/authorized_keys || cat $TMP_FILE >> .ssh/authorized_keys && rm $TMP_FILE; else mv $TMP_FILE ~/.ssh/authorized_keys; fi"

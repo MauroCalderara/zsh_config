@@ -1,0 +1,22 @@
+#!/usr/bin/env zsh
+#
+# zdot_optimize - compile all function-files for faster load
+
+
+OLDPWD=$PWD
+
+NOERR=0
+cd $ZDOT_FUNCTIONS
+for functiondefinition in * ; do
+  if [ ${functiondefinition%.zwc} = ${functiondefinition} ]; then
+    [ -f ${functiondefinition}.zwc ] && rm -f ${functiondefinition}.zwc
+	  zcompile $functiondefinition || NOERR=1
+  fi
+done
+
+if [ $NOERR = 0 ]; then
+  touch $ZDOT_FUNCTIONS/.zdot_files_are_compiled
+fi
+unset NOERR
+
+cd $OLDPWD

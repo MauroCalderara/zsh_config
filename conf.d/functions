@@ -1,0 +1,28 @@
+#!/usr/bin/env zsh
+#
+# $ZDOT_USER/functions - system wide settings for functions
+#
+# Do:
+#       - set $FPATH here
+#       - define what functions to autoload
+#
+# Do not:
+#       - execute / load any functions here
+#
+# for more information on completion control see man zshcompsys(1)
+
+ZDOT_FUNCTIONS=$ZDOT_USER/lib/functions
+
+[ -d $ZDOT_FUNCTIONS ] && FPATH="${FPATH}:$ZDOT_FUNCTIONS"
+
+setopt extended_glob
+for FUNCTION_DEFN in $ZDOT_FUNCTIONS/^*.zwc ; do
+  autoload ${FUNCTION_DEFN##*/}
+done
+
+if ! [ -f $ZDOT_FUNCTIONS/.zdot_files_are_compiled ]; then
+	zdot_optimize
+fi
+
+
+autoload -U compinit history-search-end colors 

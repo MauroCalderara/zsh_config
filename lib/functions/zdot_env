@@ -1,0 +1,228 @@
+#!/usr/bin/env zsh
+#
+# zdot_env - platform independent export of these variables:
+#
+#    ZDOT_ID           Contains the effective username
+#    ZDOT_OS           Contains the (long) name of the operating system, e.g.
+#                      Linux, FreeBSD, Solaris, MacOS X, AIX
+#    ZDOT_OS_SHORT     Contains the short name of the operating system, e.g.
+#                      Linux, OSX, SunOS, OpenBSD
+#    ZDOT_OS_DISTRO    Contains the distribution-name in case of a Linux
+#                      system, e.g. Debian, Gentoo, Ubuntu, Fedora, OpenSuSE
+#    ZDOT_OS_RELEASE   Contains the release number of the OS, e.g. 7.0
+#                      (FreeBSD), 10.4 (OSX), 10 (Solaris), 2006.1 (Gentoo)
+#    ZDOT_ARCH         Contains the CPU-architecture of the system
+#    ZDOT_HOST         Contains the effective (short) hostname
+#    ZDOT_HOST_FQDN    Contains the effective (fully qualified) hostname 
+
+# If one of these (with the exception of $ZDOT_ID) is already set we won't 
+# override it (thus we need a copy before we load the cache)
+
+[ -z "$ZDOT_OS" ] && ZDOT_OS_BAK="$ZDOT_OS"
+[ -z "$ZDOT_OS_SHORT" ] && ZDOT_OS_SHORT_BAK="$ZDOT_OS_SHORT"
+[ -z "$ZDOT_OS_DISTRO" ] && ZDOT_OS_DISTRO_BAK="$ZDOT_OS_DISTRO"
+[ -z "$ZDOT_OS_RELEASE" ] && ZDOT_OS_RELEASE_BAK="$ZDOT_OS_RELEASE"
+[ -z "$ZDOT_ARCH" ] && ZDOT_ARCH_BAK="$ZDOT_ARCH"
+[ -z "$ZDOT_HOST" ] && ZDOT_HOST_BAK="$ZDOT_HOST"
+[ -z "$ZDOT_HOST_FQDN" ] && ZDOT_HOST_FQDN_BAK="$ZDOT_HOST_FQDN"
+
+# If the values of the somewhat more complex variables are already detected,
+# source them from a file instead of invoking this whole thing each time
+# the shell starts.
+
+ZDOT_ID=$(whoami) || ZDOT_ID=$(/usr/xpg4/bin/id -un)
+if [ -z "$HOST" ]; then
+  ZDOT_ZSHENV_CACHE=$ZDOT_USER/.zdot_env_cache/fallback
+else
+  ZDOT_ZSHENV_CACHE=$ZDOT_USER/.zdot_env_cache/$HOST
+fi
+ZDOT_ZSHENV_CACHE_LOCK=$ZDOT_ZSHENV_CACHE.lock
+if [ -h $ZDOT_ZSHENV_CACHE_LOCK ]; then
+  # someone is writing to the cache, let's just wait a little
+  echo "zdot_env(): found lockfile $ZDOT_ZSHENV_CACHE_LOCK, sleeping for 1 second"
+  sleep 1
+  if [ -h $ZDOT_ZSHENV_CACHE_LOCK ]; then
+    echo "zdot_env(): lockfile still around, giving another 5 seconds"
+    sleep 5
+    if [ -z $ZDOT_ZSHENV_CACHE_LOCK ]; then
+      echo "zdot_env(): assuming stale lockfile, removing both lock and cache"
+      rm -f $ZDOT_ZSHENV_CACHE_LOCK $ZDOT_ZSHENV_CACHE
+    fi
+  fi
+fi
+if [ -r $ZDOT_ZSHENV_CACHE ]; then
+  . $ZDOT_ZSHENV_CACHE
+  [ X$ZDOT_OS_BACK = X ] || ZDOT_OS=$ZDOT_OS_BACK
+  [ X$ZDOT_OS_SHORT_BACK = X ] || ZDOT_OS_SHORT=$ZDOT_OS_SHORT_BACK
+  [ X$ZDOT_OS_DISTRO_BACK = X ] || ZDOT_OS_DISTRO=$ZDOT_OS_DISTRO_BACK
+  [ X$ZDOT_OS_RELEASE_BACK = X ] || ZDOT_OS_RELEASE=$ZDOT_OS_RELEASE_BACK
+  [ X$ZDOT_ARCH_BACK = X ] || ZDOT_ARCH=$ZDOT_ARCH_BACK
+  [ X$ZDOT_HOST_BACK = X ] || ZDOT_HOST=$ZDOT_HOST_BACK
+  [ X$ZDOT_HOST_FQDN_BACK = X ] || ZDOT_HOST_FQDN=$ZDOT_HOST_FQDN_BACK
+  return 0
+fi
+
+
+# If we can't load from cache, this here is a messy routine that detects
+# some stuff, possibly :)
+
+autoload zdot_locknwait
+[ -d ${ZDOT_ZSHENV_CACHE%/*} ] || mkdir -p ${ZDOT_ZSHENV_CACHE%/*} \
+              >/dev/null 2>&1
+zdot_locknwait $ZDOT_ZSHENV_CACHE_LOCK
+
+ZDOT_OS=$(uname)
+case $ZDOT_OS in
+  Linux)
+    ZDOT_OS=GNU/Linux
+    ZDOT_OS_SHORT=Linux
+    ZDOT_ARCH=$(uname -m)
+    [ $ZDOT_ARCH = i386 ] && ZDOT_ARCH=x86_32
+    [ $ZDOT_ARCH = amd64 ] && ZDOT_ARCH=x86_64
+    ZDOT_HOST=$(hostname)
+    ZDOT_HOST_FQDN=$(hostname --fqdn)
+    # All modern distributions should have lsb_release
+    if builtin which lsb_release >/dev/null ; then
+      ZDOT_OS_DISTRO=$(lsb_release -i | cut -f2-)
+      ZDOT_OS_RELEASE=$(lsb_release -r | cut -f2-)
+      ZDOT_OS_CODENAME=$(lsb_release -c | cut -f2-)
+      if [ $ZDOT_OS_RELEASE = "n/a" -o \
+                $ZDOT_OS_RELEASE = "rolling" ]; then
+        unset ZDOT_OS_RELEASE
+      elif [ $ZDOT_OS_CODENAME = "n/a" -o \
+                "Final" ]; then
+        unset ZDOT_OS_CODENAME
+      else
+        ZDOT_OS_RELEASE="$ZDOT_OS_RELEASE ($ZDOT_OS_CODENAME)"
+      fi
+    # These here are just fallbacks
+    elif builtin which apt-get >/dev/zero; then
+      ZDOT_OS_DISTRO="Debian based"
+    elif builtin which yum >/dev/zero; then
+      ZDOT_OS_DISTRO="RedHat based"
+    elif builtin which pacman >/dev/zero; then
+      ZDOT_OS_DISTRO="Arch"
+    else
+      ZDOT_OS_DISTRO="Unknown"
+    fi
+  ;;
+  FreeBSD)
+    ZDOT_OS_SHORT=$ZDOT_OS
+    ZDOT_ARCH=$(uname -m)
+    ZDOT_OS_RELEASE=$(uname -r)
+    ZDOT_HOST_FQDN=$(hostname)
+    ZDOT_HOST=${ZDOT_HOST_FQDN%%.*}
+  ;;
+  OpenBSD)
+    ZDOT_OS=$ZDOT_OS
+    ZDOT_OS_SHORT=$ZDOT_OS
+    ZDOT_ARCH=$(uname -m)
+    ZDOT_OS_RELEASE=$(uname -r)
+    ZDOT_HOST=$(hostname)
+    ZDOT_HOST=${ZDOT_HOST%%.*)}
+    ZDOT_HOST_FQDN=$(hostname)
+  ;;
+  NetBSD)
+    ZDOT_OS=$ZDOT_OS
+    ZDOT_OS_SHORT=$ZDOT_OS
+    ZDOT_ARCH=$(uname -m)
+    ZDOT_OS_RELEASE=$(uname -r)
+    ZDOT_HOST=$(hostname)
+    ZDOT_HOST_FQDN=$(hostname -f)
+  ;;
+  Darwin)
+    ZDOT_OS="MacOS X"
+    ZDOT_OS_SHORT=OSX
+    ZDOT_ARCH=$(uname -p)
+    case $ZDOT_ARCH in
+      i386)
+        ZDOT_ARCH=x86
+        [ $(uname -m) = x86_64 ] && ZDOT_ARCH=x86_64
+      ;;
+      powerpc)
+        ZDOT_ARCH=ppc32
+      ;;
+      ppc64)
+        ZDOT_ARCH=ppc64
+      ;;
+    esac
+    ZDOT_OSX_VERSION=$(sw_vers | grep ProductVersion | cut -f2)
+    ZDOT_OS_RELEASE="${ZDOT_OSX_VERSION%.*}"
+    unset ZDOT_OSX_VERSION
+    case $ZDOT_OS_RELEASE in
+      10.4)
+        ZDOT_OS_CODENAME="Tiger"
+        ;;
+      10.5)
+        ZDOT_OS_CODENAME="Leopard"
+        ;;
+      10.6)
+        ZDOT_OS_CODENAME="Snow Leopard"
+        ;;
+      10.7)
+        ZDOT_OS_CODENAME="Lion"
+        ;;
+      10.8)
+        ZDOT_OS_CODENAME="Mountain Lion"
+        ;;
+      10.9)
+        ZDOT_OS_CODENAME="Mavericks"
+        ;;
+      10.10)
+        ZDOT_OS_CODENAME="Yosemite"
+        ;;
+      10.11)
+        ZDOT_OS_CODENAME="El Capitan"
+        ;;
+      *)
+        ZDOT_OS_CODENAME="Unknown Cat/Mountain"
+        ;;
+    esac
+    ZDOT_HOST_FQDN=$(hostname)
+    ZDOT_HOST=${ZDOT_HOST_FQDN%%.*}
+  ;;
+  SunOS)
+    ZDOT_OS=Solaris
+    ZDOT_OS_SHORT=SunOS
+    ZDOT_ARCH=$(uname -m)
+    ZDOT_OS_RELEASE=$(uname -r)
+    ZDOT_OS_RELEASE=${ZDOT_OS_RELEASE#5.}
+    ZDOT_HOST_FQDN=$(hostname)
+    ZDOT_HOST=${ZDOT_HOST_FQDN%%.*}
+  ;;
+esac
+
+if ! touch $ZDOT_ZSHENV_CACHE >/dev/null 2>&1; then
+  echo "zdot_env(): unable to create cache-file ($ZDOT_ZSHENV_CACHE)"
+  ZDOT_ZSHENV_CACHE=/dev/null
+else
+  chmod 600 $ZDOT_ZSHENV_CACHE
+fi
+
+echo "export ZDOT_OS=\"$ZDOT_OS\"" >> $ZDOT_ZSHENV_CACHE
+echo "export ZDOT_OS_SHORT=\"$ZDOT_OS_SHORT\"" >> $ZDOT_ZSHENV_CACHE
+echo "export ZDOT_ARCH=$ZDOT_ARCH" >> $ZDOT_ZSHENV_CACHE
+echo "export ZDOT_OS_RELEASE=\"$ZDOT_OS_RELEASE\"" >> $ZDOT_ZSHENV_CACHE
+echo "export ZDOT_HOST=$ZDOT_HOST" >> $ZDOT_ZSHENV_CACHE
+echo "export ZDOT_HOST_FQDN=$ZDOT_HOST_FQDN" >> $ZDOT_ZSHENV_CACHE
+echo "export ZDOT_ID=$ZDOT_ID" >> $ZDOT_ZSHENV_CACHE
+
+case "$ZDOT_OS_SHORT" in
+  Linux)
+    echo "export ZDOT_OS_DISTRO=\"$ZDOT_OS_DISTRO\"" >> $ZDOT_ZSHENV_CACHE
+  ;;
+esac
+    
+
+rm -f $ZDOT_ZSHENV_CACHE_LOCK
+
+export ZDOT_HOST_FQDN ZDOT_HOST
+export ZDOT_OS_RELEASE ZDOT_OS ZDOT_OS_SHORT ZDOT_ARCH
+
+case "$ZDOT_OS_SHORT" in
+  Linux)
+    export ZDOT_OS_DISTRO
+  ;;
+esac
+
+# EOF

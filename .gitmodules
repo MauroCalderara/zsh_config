@@ -1,0 +1,4 @@
+[submodule "external/zsh-git-prompt"]
+	path = external/zsh-git-prompt
+	url = https://github.com/olivierverdier/zsh-git-prompt.git
+	branch = master

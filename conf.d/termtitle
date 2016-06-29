@@ -1,0 +1,23 @@
+# $ZDOT_USER/conf.d/termtitle 
+#
+# Contains settings related to the terminal variable and terminal title
+#
+# Do:
+#	- (optionally) define these functions
+#		preexec()               run before the execution of each command
+#		precmd()                run after the execution of each command
+#
+# Do not:
+#	- set anything not related to the terminal's behaviour
+#	- set the term title unconditionally (zdot_termtitle checks for $TERM)
+#
+
+# zdot_termtitle doesn't work yet
+#
+#autoload zdot_termtitle
+#function precmd() { zdot_termtitle "${ZDOT_ID}@${ZDOT_HOST}:${PWD}" }
+#function preexec() { 
+#  emulate -L zsh
+#  local -a cmd; cmd=${(z)1}
+#  zdot_termtitle ${ZDOT_ID}@${ZDOT_HOST} $cmd[1]:t "$cmd[2,-1]"
+#}

@@ -1,0 +1,49 @@
+# $ZDOT_USER/conf.d/editor
+#
+# The file containing the settings related to the editor
+#
+# Do:
+#       - set the the EDITOR and READ_ONLY_EDITOR variables
+#       - possibly define an alias related to the editor (e.g.
+#         use the zdot_editor wrapper function instead of your
+#         editor)
+#
+# Do not:
+#       - set anything else here
+#
+
+
+# change this to whatever you prefer
+EDITOR=vim
+
+case $EDITOR in
+  vim)
+    local VIM
+    if VIM=$(builtin which vim); then
+      export EDITOR=$VIM
+      export READ_ONLY_EDITOR="$EDITOR -R"
+      alias vim=zdot_editor
+    elif VIM=$(builtin which vim-minimal); then
+      export EDITOR=$VIM
+      export READ_ONLY_EDITOR="$EDITOR -R"
+      alias vim=zdot_editor
+    elif VIM=$(builtin which vi); then
+      export EDITOR=$VIM
+      export READ_ONLY_EDITOR="$EDITOR -R"
+    else
+      export EDITOR=vi
+      export READ_ONLY_EDITOR=vi
+    fi
+    alias vi=zdot_editor
+  ;;
+  emacs)
+    export EDITOR="$(builtin which xemacs)"
+    export READ_ONLY_EDITOR="$EDITOR"
+    alias xemacs=zdot_editor
+  ;;
+  nano)
+    export EDITOR="$(builtin which nano)"
+    export READ_ONLY_EDITOR="$EDITOR --view"
+    alias nano=zdot_editor
+  ;;
+esac

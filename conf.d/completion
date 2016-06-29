@@ -1,0 +1,68 @@
+# $ZDOT_USER/conf.d/completion
+#
+# Settings for completion and correction
+#
+# Do:
+#       - set things related to completion/correction for interactive 
+#         shells
+#
+# Do not:
+#       - set anything else
+#
+
+
+# cheat sheet (default keybindings)
+#
+# Ctrl-l:   clear
+#
+
+# completion related modules
+zmodload -i zsh/compctl   # The compctl builtin for controlling completion
+
+zmodload -i zsh/complete  # The basic completion code.
+
+zmodload -i zsh/complist  # Completion listing extensions.
+
+zmodload -i zsh/computil  # Utility builtins for shell function based
+                          # completion.
+
+autoload -U compinit && compinit
+
+zstyle ':completion:*' special-dirs ..
+zstyle ':completion:*' menu select=10   # Show a menu for >= 10 entries
+if [ -z "$LS_COLORS" ]; then
+  zstyle ':completion:*:default' list-colors '' # colorized
+else
+  zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
+fi
+zstyle ':completion:*' use-cache on     # Use the cache
+zstyle ':completion:*' cache-path $ZDOTDIR/.zcompcache  # Cache directory
+zstyle ':completion:*:functions' ignored-patterns '_*'  # Ignore unknown cmnds
+zstyle ':completion:*:cd:*' ignore-parents parent pwd # Ignore . when cd ../
+zstyle ':completion:*:descriptions' format '%U%B%d%b%u' # Nicer display
+zstyle ':completion:*:warnings' format '%BSorry, no matches for: %d%b'
+
+# Fuzzy matching for mistyped stuff with increasing 'tolerance' for increased
+# length of typed string
+zstyle ':completion:*' completer _complete _match _approximate
+zstyle ':completion:*:match:*' original only
+zstyle -e ':completion:*:approximate:*' \
+                      max-errors 'reply=($((($#PREFIX+$#SUFFIX)/3))numeric)'
+
+
+
+# various options for completion and correction
+setopt correct             # correct mistyped commands
+setopt nocorrectall        # do not correct the rest 
+setopt automenu            # instantly display the menu, then cycle through
+setopt list_ambiguous      # complete only up to ambiguity
+setopt autolist            # automatically show lists in case of ambiguities
+setopt listtypes           # show @,/ and so on for completion candidates
+LISTMAX=50                 # ask for seeing all completion candidates if the
+                           # list would take more than 50 entries
+setopt nonomatch           # avoid 'zsh: no matches found...'
+setopt hash_list_all       # hash command path before completion
+setopt completeinword      # complete not just at word end
+setopt noglobdots          # never match dotfiles with *
+setopt completealiases     # complete aliases, too
+setopt extended_glob       # advanced completion and globbing

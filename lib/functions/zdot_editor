@@ -1,0 +1,76 @@
+#!/usr/bin/env zsh
+#
+# zdot_editor
+#
+# a function that checks whether a file is owned by root/someone else
+# and if so use sudo. It uses $EDITOR and $READ_ONLY_EDITOR, which can be set to
+# your favourite editor. In case they are not set, it will just do nothing
+# and execute your command
+
+if [ -z "$EDITOR" -o -z "$READ_ONLY_EDITOR" ]; then
+    echo "please set \${EDITOR} and \${READ_ONLY_EDITOR}, otherwise there is not much"
+    echo "i can do =("
+    echo
+    echo "starting your editor..."
+    sleep 1 
+    $@
+    return $?
+fi
+
+# this is for while [[ ]] {} to work (for the (#i) precisely)
+setopt extendedglob
+
+local LIMIT=$#
+local RO=false
+local NR=false
+local ARG=1
+local FILE
+while [ $ARG -le $LIMIT ]; do
+  eval FILE="\$$ARG"
+  if [ -e "$FILE" ]; then
+    if ! [ -w "$FILE" -o -O "$FILE" ]; then
+      RO=true	
+    elif ! [ -r "$FILE" ]; then
+      NR=true
+	  fi
+  else
+    local FILEBASE="${FILE%/*}"
+    if [ "$FILEBASE" = "$FILE" ]; then
+      FILEBASE=.
+    fi
+    if ! [ -w "$FILEBASE" -o -O "$FILEBASE" ]; then
+      RO=true
+    elif ! [ -r "$FILEBASE" ]; then
+      NR=true
+	  fi
+  fi
+  (( ARG++ ))
+done
+
+if [ $RO = false ] && [ $NR = false ]; then
+  $EDITOR $@
+  return $?
+else
+  [ $RO = true ] && { echo "${fg_bold[red]}read-only files specified \e[0m" }
+  [ $NR = true ] && { echo "${fg_bold[red]}non-readable files specified \e[0m" }
+  unset ANSWER
+  while [[ $ANSWER != (#i)(y|n|q) ]] { read -k1 ANSWER\?"Use sudo? [y|n|q] " }
+    case $ANSWER in
+	    y)
+        echo
+        echo -n "${USER}'s "; sudo $EDITOR $@
+        ;;
+	    n)
+        if [ -z $READ_ONLY_EDITOR ]; then
+          eval $EDITOR $@
+        else
+          eval $READ_ONLY_EDITOR $@
+        fi
+        ;;
+	    q)
+        echo
+        return
+        ;;
+    esac
+  #done # zsh syntax
+fi

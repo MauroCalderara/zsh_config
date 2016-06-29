@@ -1,0 +1,15 @@
+# $ZDOT_USER/conf.d/OS/FreeBSD/zshrc zshrc for FreeBSD
+#
+# Do:
+#	- in general set things which are relevant for interactive shells
+#	  on a specific OS
+#
+# Do not:
+#	- produce output
+#
+
+if [ $TERM = xterm ]; then
+  export TERM=xterm-color
+fi
+
+export PACKAGESITE=http://ftp.freebsd.org/pub/FreeBSD/ports/$ZDOT_ARCH/packages-${ZDOT_OS_RELEASE%%.*}-stable/Latest/

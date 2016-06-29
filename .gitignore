@@ -1,0 +1,5 @@
+*.local
+zhistory
+.zcompdump
+.zcompcache
+.zdot_env_cache

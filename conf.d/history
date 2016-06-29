@@ -1,0 +1,60 @@
+# ZDOT_USER/conf.d/history 
+#
+# The file containing the user specific settings for the history
+#
+# Do:
+#	- set options and variables related to the shell history
+#
+# Do not:
+#	- set anything else
+#
+
+
+HISTSIZE=1000           # be a little stingy here, this is the number of
+                        # events loaded from $HISTFILE at startup
+
+SAVEHIST=5000           # don't be stingy here, the last $SAVEHIST events are
+                        # the ones that are saved to $HISTFILE
+
+HISTFILE="$ZDOT_USER/zhistory"   # need explanation?
+
+setopt inc_append_history # save all commands to history before executing
+
+setopt share_history    # share history amongst shells
+
+setopt histignorespace  # do not save commands that start with a whitespace
+
+setopt histignorealldups # don't save the event if it is the 
+                  			# same as the preceding
+
+setopt histallowclobber # allow events recalled from history to clobber
+                        # with > (i.e. stores > as >| which overrides
+                        # NO_CLOBBER if set)
+
+setopt histreduceblanks # remove blanks that don't mean anything to the
+                        # shell (i.e. not the ones quoted or important)
+
+setopt nohistnostore    # do store hist and fc commands in the history
+
+setopt histnofunctions  # do not store function-definitions in the
+                        # history (they can get rather long)
+
+setopt nohistbeep       # don't beep when reaching the limits of history
+
+setopt extended_history # store more information in history
+
+# keybindings related to history functions
+zle -N history-beginning-search-backward-end history-search-end
+zle -N history-beginning-search-forward-end history-search-end
+bindkey "^[[A" history-beginning-search-backward-end
+bindkey "^[[B" history-beginning-search-forward-end
+
+
+# directory history
+setopt autopushd        # keep track of visited directories (see dirs -v)
+                        # or try cd -[TAB]
+                        # -> cd -2 goes back two directories
+DIRSTACKSIZE=20
+DIRSTACKFILE=$ZDOTDIR/.zdirstack
+setopt pushdignoredups  # no dups
+

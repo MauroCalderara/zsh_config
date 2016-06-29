@@ -1,0 +1,13 @@
+# $ZDOT_USER/conf.d/root
+#
+# The file containing options specifically for root shells
+#
+# Do:
+#	- set options that apply only to root-shells like
+#	  - making mistakes harder
+#
+# Do not:
+#	- set anything else :)
+
+setopt rmstarsilent     # warn when using rm with *
+setopt rmstarwait       # wait 10 seconds after rm-warning

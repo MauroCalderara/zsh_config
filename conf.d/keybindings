@@ -1,0 +1,51 @@
+# $ZDOT_USER/conf.d/keybindings
+#
+# Definition of keybindings
+#
+# Do:
+#       - define keybindings
+#
+# Do not:
+#       - do anything else in here
+#
+
+# The ZLE is set to 'viins' (bindkey -v) if $EDITOR contaings the
+# string 'vi' and to 'emacs' (bindkey -e) otherwise.
+
+
+# Home and End
+if [ "$TERM" = "xterm" ]; then
+    # Normal keypad and cursor of xterm
+    bindkey    "^[[1~"  history-search-backward
+    bindkey    "^[[4~"  set-mark-command
+    bindkey    "^[[H"   beginning-of-line
+    bindkey    "^[[F"   end-of-line
+    # Home and End of application keypad and cursor of xterm
+    bindkey    "^[OH"   beginning-of-line
+    bindkey    "^[OF"   end-of-line
+    bindkey    "^[O5H"  beginning-of-line
+    bindkey    "^[O5F"  end-of-line
+elif [ "$TERM" = "kvt" ]; then
+    bindkey    "^[[1~"  history-search-backward
+    bindkey    "^[[4~"  set-mark-command
+    bindkey    "^[OH"   beginning-of-line
+    bindkey    "^[OF"   end-of-line
+else
+    # TERM=linux or console
+    bindkey    "^[[1~"  beginning-of-line
+    bindkey    "^[[4~"  end-of-line
+fi
+
+# Alt-z: remove current command, give a new prompt
+# and show command after that
+bindkey "^[z" push-line
+
+# Alt-x: push current command to history, give a new
+# prompt
+commit-to-history() {
+  print -s ${(z)BUFFER}
+  zle send-break
+  return 0
+}
+zle -N commit-to-history; bindkey "^[x" commit-to-history
+

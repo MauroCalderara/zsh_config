@@ -1,0 +1,15 @@
+# Select according to distribution
+#
+
+# Some general Linux stuff could directly in this file
+
+# Local but non distribution specific directives
+[ -r $ZDOT_USER/conf.d/OS/Linux/zshenv.local ] && \
+            . $ZDOT_USER/conf.d/OS/Linux/zshenv.local
+
+# Distribution specific stuff should to into
+# $ZDOT_USER/conf.d/OS/Linux/zshenv.$ZDOT_OS_DISTRO
+[ -r $ZDOT_USER/conf.d/OS/Linux/zshenv.$ZDOT_OS_DISTRO ] && \
+            . $ZDOT_USER/conf.d/OS/Linux/zshenv.$ZDOT_OS_DISTRO
+[ -r $ZDOT_USER/conf.d/OS/Linux/zshenv.$ZDOT_OS_DISTRO.local ] && \
+            . $ZDOT_USER/conf.d/OS/Linux/zshenv.$ZDOT_OS_DISTRO.local
