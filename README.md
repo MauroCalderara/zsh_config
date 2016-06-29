@@ -1,6 +1,6 @@
 # zsh_config
 
-A configuration for the [Z shell (zsh)](http://zsh.org/). This configuration aims to be simple, modular, clean and fast. It supports the Linux distributions I work on, FreeBSD, OpenBSD and Solars. Most useful features of [zsh](http://zsh.org/) are enabled but without going over the top. Support for a [git](https://git-scm.com/) prompt is provided by [zsh-git-prompt](https://github.com/olivierverdier/zsh-git-prompt).
+A configuration for the [Z shell (zsh)](http://zsh.org/). This configuration aims to be simple, modular, clean and fast. It supports the Linux distributions I work on, as well as FreeBSD, OpenBSD and Solaris. Most useful features of [zsh](http://zsh.org/) are enabled but without going over the top so the shell is still fast on slow machines. Support for a [git](https://git-scm.com/) prompt is provided by [zsh-git-prompt](https://github.com/olivierverdier/zsh-git-prompt).
 
 - [Overview](#overview)
 - [Installation](#installation)
