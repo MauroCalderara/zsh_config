@@ -1,6 +1,8 @@
 # zsh_config
 
-A configuration for the [Z shell (zsh)](http://zsh.org/). This configuration aims to be simple, modular, clean and fast. It supports the Linux distributions I work on, as well as FreeBSD, OpenBSD and Solaris. Most useful features of [zsh](http://zsh.org/) are enabled but without going over the top so the shell is still fast on slow machines. Support for a [git](https://git-scm.com/) prompt is provided by [zsh-git-prompt](https://github.com/olivierverdier/zsh-git-prompt).
+A configuration for the [Z shell (zsh)](http://zsh.org/). This configuration aims to be simple, modular, clean and fast. Most useful features of [zsh](http://zsh.org/) are enabled but without going over the top so the shell is still fast on slow machines. Support for a [git](https://git-scm.com/) prompt is provided by [zsh-git-prompt](https://github.com/olivierverdier/zsh-git-prompt).
+
+Support for [Debian](http://www.debian.org/), [Ubuntu](http://www.ubuntu.com/), [CentOS](http://www.centos.org/), [Gentoo](http://www.gentoo.org/), as well as [Mac OS X](http://www.apple.com/osx/), [FreeBSD](http://www.freebsd.org/), [OpenBSD](http://www.openbsd.org/) and [Solaris 10+](http://www.oracle.com/solaris) is provided. Generic Unix systems are supported as well.
 
 - [Overview](#overview)
 - [Installation](#installation)
@@ -8,7 +10,7 @@ A configuration for the [Z shell (zsh)](http://zsh.org/). This configuration aim
 Overview
 ---
 
-The configuration is structures as follows
+The configuration is installed in the user's home and split into multiple files under `~/.zsh`:
 
 | File &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | Purpose |
 | ---- | ------------ |
