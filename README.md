@@ -39,4 +39,4 @@ The configuration is installed in the user's home and split into multiple files 
 Installation
 ---
 
-Clone the repository to `~/.zsh` and create a symlink from `~/.zsh/zshenv` to `~/.zshenv`. If you enabled the git prompt (`ZDOT_GIT_PROMPT=yes` in `conf.d/prompt`, which is the default), you can speed up the prompt considerably by compiling the Haskell binary in `external/zsh-git-prompt` as described [here](https://github.com/olivierverdier/zsh-git-prompt).
+Clone the repository recursively (git clone --recursive) to `~/.zsh` and create a symlink from `~/.zsh/zshenv` to `~/.zshenv`. If you enabled the git prompt (`ZDOT_GIT_PROMPT=yes` in `conf.d/prompt`, which is the default), you can speed up the prompt considerably by compiling the Haskell binary in `external/zsh-git-prompt` as described [here](https://github.com/olivierverdier/zsh-git-prompt).
