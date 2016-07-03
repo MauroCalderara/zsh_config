@@ -3,3 +3,7 @@
 	url = https://github.com/olivierverdier/zsh-git-prompt.git
     branch = master
     ignore = dirty
+[submodule "external/dircolors-solarized"]
+	path = external/dircolors-solarized
+	url = https://github.com/seebi/dircolors-solarized.git
+	branch = master

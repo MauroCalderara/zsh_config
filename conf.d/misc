@@ -38,5 +38,12 @@ case $ZDOT_OS_DISTRO in
     ;;
 esac
 
+# ls colors (GNU ls)
+if ls --version | grep -q 'GNU coreutils'; then
+  if [ -f $ZDOT_USER/external/dircolors-solarized/dircolors.256dark ]; then
+    eval `dircolors $ZDOT_USER/external/dircolors-solarized/dircolors.256dark`
+  fi
+fi
+
 # nmon configuration
 export NMON="lmVknD."
