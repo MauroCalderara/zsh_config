@@ -61,7 +61,7 @@ else
         echo -n "${USER}'s "; sudo $EDITOR $@
         ;;
 	    n)
-        if [ -z $READ_ONLY_EDITOR ]; then
+        if [ -z "$READ_ONLY_EDITOR" ]; then
           eval $EDITOR $@
         else
           eval $READ_ONLY_EDITOR $@
