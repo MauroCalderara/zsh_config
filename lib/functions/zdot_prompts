@@ -6,15 +6,15 @@
 
 case X$ZDOT_PROMPT_STYLE in
   X)
-    PS1='%m%#'
+    PS1='$ZDOT_HOST%#'
   ;;
   Xgentoo)
     case $ZDOT_ID in
       root)
-        PS1="%B%{${fg[red]}%}%m%{${fg[blue]}%} %13<...<%~ #%b "
+        PS1="%B%{${fg[red]}%}$ZDOT_HOST%{${fg[blue]}%} %13<...<%~ #%b "
       ;;
       *)
-        PS1="%B%{${fg[green]}%}%n@%m%{${fg[blue]}%} %13<...<%~ $%b "
+        PS1="%B%{${fg[green]}%}%n@$ZDOT_HOST%{${fg[blue]}%} %13<...<%~ $%b "
       ;;
     esac
   ;;
@@ -28,10 +28,10 @@ case X$ZDOT_PROMPT_STYLE in
     fi
     case $ZDOT_ID in
       root)
-        PS1="%B%{${fg[red]}%}%n%b@%B%{${HNCOLOR}%}%m%{${PCOLOR}%}:%24<...<%~%# %{${fg[red]}%}%(?..[%?%\] )% %b"
+        PS1="%B%{${fg[red]}%}%n%b@%B%{${HNCOLOR}%}$ZDOT_HOST%{${PCOLOR}%}:%24<...<%~%# %{${fg[red]}%}%(?..[%?%\] )% %b"
       ;;      
       *)
-        PS1="%B%{${fg[blue]}%}%n%b@%B%{${BLACK}%}%m%{${PCOLOR}%}:%24<...<%~%# %{${fg[red]}%}%(?..[%?%\] )% %b"
+        PS1="%B%{${fg[blue]}%}%n%b@%B%{${BLACK}%}$ZDOT_HOST%{${PCOLOR}%}:%24<...<%~%# %{${fg[red]}%}%(?..[%?%\] )% %b"
       ;;
     esac
     case $ZDOT_OS_SHORT in
