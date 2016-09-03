@@ -2,55 +2,29 @@
 #
 # zdot_push
 #
-# a function copies the zsh dotfiles under ~/.zsh to a remote host
+# a function copies the ssh key and the zsh dotfiles under ~/.zsh to a remote host
 #
 # Syntax: zdot_push user@host
 
-if ! [ $# = 1 ]; then
+if [ $# = 0 -o $# -gt 2 ]; then
   cat << EOF
 
   zdot_push
 
-  A function that copies the zsh dotfiles unter your \$ZDOTDIR to
-  a remote host.
+  A function that copies the (specified) ssh key and the zsh dotfiles under 
+  your \$ZDOTDIR to a remote host.
 
-  Syntax: zdot_push user@host
+  Syntax: zdot_push [identity_file] user@host
 
 EOF
   return 0
+elif [ $# = 1 ]; then
+  REMOTE_HOST=$1
+elif [ $# = 2 ]; then
+  IDENTITY_FILE=$1
+  REMOTE_HOST=$2
 fi
 
-PREVPWD=$PWD
-TMP=/tmp/zdot_push.$$
-
-# an overly complicated but secure way to create a temporary directory
-mkdir $ZDOTDIR/.zdot_push_tmp
-chmod 700 $ZDOTDIR/.zdot_push_tmp
-[ -d $TMP ] && rm -rf $TMP
-mv $ZDOTDIR/.zdot_push_tmp $TMP
-
-# copy the current dotfiles to the temporary directory (if it is currently a
-# symlink, the following will ensure it's not anymore on the target machine)
-ZDOT_BASE=${ZDOTDIR#$HOME/}
-mkdir $TMP/$ZDOT_BASE
-cp -r $ZDOTDIR/* $ZDOTDIR/.[a-z]* $TMP/$ZDOT_BASE 
-cd $TMP/$ZDOT_BASE
-
-# clean out the 'local' stuff:
-rm -f ${HISTFILE#$ZDOTDIR/} 2>&1 >/dev/null
-rm -f ${ZDOT_FUNCTIONS#$ZDOTDIR/}/*.zwc 2>&1 >/dev/null
-rm -f ${ZDOT_FUNCTIONS#$ZDOTDIR/}/.zdot_files_are_compiled 2>&1 >/dev/null
-rm -rf .zcompdump .zcompcache .zdot_env_cache 2>&1 >/dev/null
-touch dummy.local
-find . -name '*.local' -print0 | xargs -0 rm
-cd ..
-ln -s $ZDOT_BASE/zshenv .zshenv
-# we don't clean out the SVN related things
-
-# transfer
-tar czf - .zshenv $ZDOT_BASE | \
-  ssh $1 "tar xzf -; [ \${USER} = root ] && chown -R 0:0 .zshenv $ZDOT_BASE; find $ZDOT_BASE -name '*.zwc' -delete ; true"
-
-# cleaning up
-rm -r $TMP
-cd $PREVPWD
+set -e
+zdot_push_sshkey $IDENTITY_FILE $REMOTE_HOST
+zdot_push_zdot $REMOTE_HOST
