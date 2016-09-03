@@ -9,7 +9,7 @@
 
 # Distribution specific stuff should to into
 # $ZDOT_USER/conf.d/OS/Linux/zshenv.$ZDOT_OS_DISTRO
-[ -r $ZDOT_USER/conf.d/OS/Linux/zshenv.$ZDOT_OS_DISTRO ] && \
-            . $ZDOT_USER/conf.d/OS/Linux/zshenv.$ZDOT_OS_DISTRO
-[ -r $ZDOT_USER/conf.d/OS/Linux/zshenv.$ZDOT_OS_DISTRO.local ] && \
-            . $ZDOT_USER/conf.d/OS/Linux/zshenv.$ZDOT_OS_DISTRO.local
+[ -r "$ZDOT_USER/conf.d/OS/Linux/zshenv.$ZDOT_OS_DISTRO" ] && \
+            . "$ZDOT_USER/conf.d/OS/Linux/zshenv.$ZDOT_OS_DISTRO"
+[ -r "$ZDOT_USER/conf.d/OS/Linux/zshenv.$ZDOT_OS_DISTRO.local" ] && \
+            . "$ZDOT_USER/conf.d/OS/Linux/zshenv.$ZDOT_OS_DISTRO.local"
