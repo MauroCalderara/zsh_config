@@ -23,7 +23,7 @@
 #   standard
 #   gentoo
 #   grml
-ZDOT_GIT_PROMPT=yes
+[ "$ZDOT_OS" = "Linux" ] && ZDOT_GIT_PROMPT=yes
 ZDOT_PROMPT_STYLE=fancy_dark_bg 
 
 # load the prompt from the ``library''
