@@ -25,6 +25,5 @@ elif [ $# = 2 ]; then
   REMOTE_HOST=$2
 fi
 
-set -e
-zdot_push_sshkey $IDENTITY_FILE $REMOTE_HOST
+zdot_push_sshkey $IDENTITY_FILE $REMOTE_HOST && \
 zdot_push_zdot $REMOTE_HOST
