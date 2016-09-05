@@ -36,7 +36,6 @@ mkdir $TMP/$ZDOT_BASE
 cp -r $ZDOTDIR/* $ZDOTDIR/.z* $TMP/$ZDOT_BASE 
 
 # clean out the 'local' stuff:
-set -e
 cd $TMP/$ZDOT_BASE
 rm -f ${HISTFILE#$ZDOTDIR/} 2>&1 >/dev/null
 rm -f ${ZDOT_FUNCTIONS#$ZDOTDIR/}/*.zwc 2>&1 >/dev/null
