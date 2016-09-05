@@ -50,7 +50,7 @@ ln -s $ZDOT_BASE/zshenv .zshenv
 
 # transfer
 tar czf - .zshenv $ZDOT_BASE | \
-  ssh $1 "tar xzf -; [ \${USER} = root ] && chown -R 0:0 .zshenv $ZDOT_BASE; find $ZDOT_BASE -name '*.zwc' -exec rm {} + ; true"
+  ssh $1 "tar xzf -; [ \${USER} = root ] && chown -R 0:0 .zshenv $ZDOT_BASE; ZWC_FILES=`find $ZDOT_BASE -name '*.zwc'`; [ X"$ZWC_FILES" = X ] || rm $ZWC_FILES ; true"
 
 # cleaning up
 rm -rf $TMP
