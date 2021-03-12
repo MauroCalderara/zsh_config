@@ -1,5 +1,1 @@
-*.local
-zhistory
-.zcompdump
-.zcompcache
-.zdot_env_cache
+config/local.zsh

@@ -22,31 +22,12 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
-# Enable Powerlevel10k instant prompt. Should stay close to
-# the top of ~/.zshrc.
-# Initialization code that may require console input (password
-# prompts, [y/n] confirmations, etc.) must go above this block;
-# everything else may go below.
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-fi
+# Custom path settings
+[[ -d "${HOME}/.emacs.d/private/mmc/scripts" ]] && \
+	export PATH="${HOME}/.emacs.d/private/mmc/scripts:${PATH}"
 
-export ZSH="${HOME}/.zsh"
+# Use emcommit for git
+export GIT_EDITOR=emcommit
 
-####################
-# Oh-my-zsh settings
-
-ZSH_THEME="powerlevel10k/powerlevel10k"
-DISABLE_AUTO_UPDATE="true"
-# Uncomment the following line to display red dots whilst
-# waiting for completion. Caution: this setting can cause
-# issues with multiline prompts (zsh 5.7.1 and newer seem
-# to work).
-# See https://github.com/ohmyzsh/ohmyzsh/issues/5765
-COMPLETION_WAITING_DOTS="true"
-
-HIST_STAMPS="mm/dd/yyyy"
-
-plugins=(git emacs)
-source "${ZSH}/oh-my-zsh.sh"
-
+# When in emacs / spacemacs, alias vi to em
+[[ -n "${INSIDE_EMACS}" ]] && alias vi='em'

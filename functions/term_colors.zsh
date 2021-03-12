@@ -22,31 +22,8 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
-# Enable Powerlevel10k instant prompt. Should stay close to
-# the top of ~/.zshrc.
-# Initialization code that may require console input (password
-# prompts, [y/n] confirmations, etc.) must go above this block;
-# everything else may go below.
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-fi
-
-export ZSH="${HOME}/.zsh"
-
-####################
-# Oh-my-zsh settings
-
-ZSH_THEME="powerlevel10k/powerlevel10k"
-DISABLE_AUTO_UPDATE="true"
-# Uncomment the following line to display red dots whilst
-# waiting for completion. Caution: this setting can cause
-# issues with multiline prompts (zsh 5.7.1 and newer seem
-# to work).
-# See https://github.com/ohmyzsh/ohmyzsh/issues/5765
-COMPLETION_WAITING_DOTS="true"
-
-HIST_STAMPS="mm/dd/yyyy"
-
-plugins=(git emacs)
-source "${ZSH}/oh-my-zsh.sh"
-
+term_colors() {
+  for i in {0..255}; do
+    print -Pn "%K{$i}  %k%F{$i}${(l:3::0:)i}%f " ${${(M)$((i%6)):#3}:+$'\n'}
+  done
+}
