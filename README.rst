@@ -26,30 +26,30 @@ of the repository as well.
 
 Following these instructions will get you started::
 
-   > # Optional: download and install a font supporting fancy symbols, e.g.
-   > # https://github.com/ryanoasis/nerd-fonts/tree/master/patched-fonts/FiraCode
-   > #
-   > # To install the font for your user extract the archive to
-   > # ~/.local/share/fonts, then run fc-cache -f -v and finally adjust the font
-   > # in the terminal that you use to run zsh.
-   >
-   > # Fetch oh-my-zsh (alternatively one can follow the official instructions
-   > # and move things into place afterwards
-   > git clone --depth=1 https://github.com/ohmyzsh/ohmyzsh.git ~/.zsh
-   >
-   > # Fetch powerlevel10k
-   > git clone --depth=1 https://github.com/romkatv/powerlevel10k.git \
-       ~/.zsh/custom/themes/powerlevel10k
-   >
-   > # Fetch this repository
-   > git clone --depth=1 https://github.com/MauroCalderara/zsh_config.git \
-       ~/.zsh/custom/mmc
-   >
-   > # Activate the entry hook
-   > (cd ~/.zsh/custom && ln -s mmc/entry-hook mmc.zsh)
-   >
-   > # Activate the .zshrc (this will fail if you already have a ~/.zshrc)
-   > (cd ~ && ln -s .zsh/custom/mmc/zshrc .zshrc)
+   # Optional: download and install a font supporting fancy symbols, e.g.
+   # https://github.com/ryanoasis/nerd-fonts/tree/master/patched-fonts/FiraCode
+   #
+   # To install the font for your user extract the archive to
+   # ~/.local/share/fonts, then run fc-cache -f -v and finally adjust the font
+   # in the terminal that you use to run zsh.
+   
+   # Fetch oh-my-zsh (alternatively one can follow the official instructions
+   # and move things into place afterwards
+   git clone --depth=1 https://github.com/ohmyzsh/ohmyzsh.git ~/.zsh
+   
+   # Fetch powerlevel10k
+   git clone --depth=1 https://github.com/romkatv/powerlevel10k.git \
+     ~/.zsh/custom/themes/powerlevel10k
+   
+   # Fetch this repository
+   git clone --depth=1 https://github.com/MauroCalderara/zsh_config.git \
+     ~/.zsh/custom/mmc
+   
+   # Activate the entry hook
+   (cd ~/.zsh/custom && ln -s mmc/entry-hook mmc.zsh)
+   
+   # Activate the .zshrc (this will fail if you already have a ~/.zshrc)
+   (cd ~ && ln -s .zsh/custom/mmc/zshrc .zshrc)
 
 If the above worked running ``zsh`` should give you a decent looking prompt. If
 not, see the next section.
@@ -60,8 +60,8 @@ Updating
 
 Should be pretty simple::
 
-   > cd ~/.zsh/custom/mmc
-   > git pull
+   cd ~/.zsh/custom/mmc
+   git pull
 
 
 Customization...
