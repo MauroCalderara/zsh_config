@@ -8,7 +8,7 @@ make this work more easily with
 `my spacemacs configuration <https://github.com/MauroCalderara/spacemacs_config.git>`_
 but this config can be used independently as well.
 
-<TODO insert screenshot here>
+.. image:: https://github.com/MauroCalderara/zsh_config/raw/master/docs/screenshot.png
 
 For things to look as in the above screenshot a font with support for special
 symbols needs to be used. I use Fira Code patched by
