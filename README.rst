@@ -34,7 +34,7 @@ Following these instructions will get you started::
    # in the terminal that you use to run zsh.
    
    # Fetch oh-my-zsh (alternatively one can follow the official instructions
-   # and move things into place afterwards
+   # and move things into place afterwards)
    git clone --depth=1 https://github.com/ohmyzsh/ohmyzsh.git ~/.zsh
    
    # Fetch powerlevel10k
