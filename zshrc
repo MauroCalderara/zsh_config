@@ -47,6 +47,6 @@ COMPLETION_WAITING_DOTS="true"
 
 HIST_STAMPS="mm/dd/yyyy"
 
-plugins=(git emacs)
+plugins=(git)
 source "${ZSH}/oh-my-zsh.sh"
 
