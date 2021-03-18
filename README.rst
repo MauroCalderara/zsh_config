@@ -41,6 +41,10 @@ Following these instructions will get you started::
    # Fetch powerlevel10k
    git clone --depth=1 https://github.com/romkatv/powerlevel10k.git \
      ~/.zsh/custom/themes/powerlevel10k
+
+   # Fetch zsh-syntax-highlighting
+   git clone --depth=1 https://github.com/zsh-users/zsh-syntax-highlighting.git \
+     ~/.zsh/custom/plugins/zsh-syntax-highlighting
    
    # Fetch this repository
    git clone --depth=1 https://github.com/MauroCalderara/zsh_config.git \

@@ -47,6 +47,9 @@ COMPLETION_WAITING_DOTS="true"
 
 HIST_STAMPS="mm/dd/yyyy"
 
-plugins=(git)
+plugins=(
+  git
+  zsh-syntax-highlighting
+)
 source "${ZSH}/oh-my-zsh.sh"
 
