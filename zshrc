@@ -32,6 +32,8 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
 fi
 
 export ZSH="${HOME}/.zsh"
+export ZSH_DATA="${HOME}/.zsh/custom/data"
+mkdir -p "${ZSH_DATA}"
 
 ####################
 # Oh-my-zsh settings
@@ -45,11 +47,25 @@ DISABLE_AUTO_UPDATE="true"
 # See https://github.com/ohmyzsh/ohmyzsh/issues/5765
 COMPLETION_WAITING_DOTS="true"
 
+# Configuring the history
 HIST_STAMPS="mm/dd/yyyy"
+HISTFILE="${ZSH_DATA}/history"
+
+# Have the z plugin's data inside ${ZSH_DATA}
+_Z_DATA="${ZSH_DATA}/z"
 
 plugins=(
   git
-  zsh-syntax-highlighting
+  history-substring-search
+  z
 )
+
+# Autodetect and load custom plugins (except those in ignored_plugins)
+ignored_plugins=(example)
+for installed_plugin in ${ZSH}/custom/plugins/*; do
+  (( ${ignored_plugins[(I)${installed_plugin##*/}]} )) && \
+     plugins+=(${installed_plugin##*/})
+done
+
 source "${ZSH}/oh-my-zsh.sh"
 

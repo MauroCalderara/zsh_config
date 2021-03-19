@@ -42,10 +42,13 @@ Following these instructions will get you started::
    git clone --depth=1 https://github.com/romkatv/powerlevel10k.git \
      ~/.zsh/custom/themes/powerlevel10k
 
-   # Fetch zsh-syntax-highlighting
-   git clone --depth=1 https://github.com/zsh-users/zsh-syntax-highlighting.git \
-     ~/.zsh/custom/plugins/zsh-syntax-highlighting
-   
+   # Optional: fetch plugins I use
+   (cd ~/.zsh/custom/plugins
+    git clone --depth=1 https://github.com/zsh-users/zsh-autosuggestions
+    git clone --depth=1 https://github.com/zsh-users/zsh-completions
+    git clone --depth=1 https://github.com/zsh-users/zsh-syntax-highlighting
+   )
+
    # Fetch this repository
    git clone --depth=1 https://github.com/MauroCalderara/zsh_config.git \
      ~/.zsh/custom/mmc
