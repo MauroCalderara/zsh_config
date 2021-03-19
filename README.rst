@@ -57,7 +57,7 @@ Following these instructions will get you started::
    (cd ~/.zsh/custom && ln -s mmc/entry-hook mmc.zsh)
    
    # Activate the .zshrc (this will fail if you already have a ~/.zshrc)
-   (cd ~ && ln -s .zsh/custom/mmc/zshrc .zshrc)
+   (cd ~ && ln -s .zsh/custom/mmc/dot_zshrc .zshrc)
 
 If the above worked running ``zsh`` should give you a decent looking prompt. If
 not, see the next section.
