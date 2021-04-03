@@ -63,7 +63,7 @@ plugins=(
 # Autodetect and load custom plugins (except those in ignored_plugins)
 ignored_plugins=(example)
 for installed_plugin in ${ZSH}/custom/plugins/*; do
-  (( ${ignored_plugins[(I)${installed_plugin##*/}]} )) && \
+  (( ${ignored_plugins[(I)${installed_plugin##*/}]} )) || \
      plugins+=(${installed_plugin##*/})
 done
 
