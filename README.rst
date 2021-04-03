@@ -54,7 +54,7 @@ Following these instructions will get you started::
      ~/.zsh/custom/mmc
    
    # Activate the entry hook
-   (cd ~/.zsh/custom && ln -s mmc/entry-hook mmc.zsh)
+   (cd ~/.zsh/custom && ln -s mmc/entry_hook mmc.zsh)
    
    # Activate the .zshrc (this will fail if you already have a ~/.zshrc)
    (cd ~ && ln -s .zsh/custom/mmc/dot_zshrc .zshrc)
