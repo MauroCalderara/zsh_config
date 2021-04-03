@@ -57,8 +57,11 @@ fi
 [[ -d "${HOME}/.emacs.d/private/mmc/scripts" ]] && \
 	export PATH="${HOME}/.emacs.d/private/mmc/scripts:${PATH}"
 
-# Use emcommit for git
-export GIT_EDITOR=emcommit
 
-# When in emacs / spacemacs, alias vi to em
-[[ -n "${INSIDE_EMACS}" ]] && alias vi='em'
+# When in emacs / spacemacs, alias vi to em and use emcommit for git commit
+# messages.
+if [[ -n "${INSIDE_EMACS}" ]] && command -v em 2>&1 >/dev/null; then
+  alias vi='em'
+  export GIT_EDITOR=emcommit
+fi
+
