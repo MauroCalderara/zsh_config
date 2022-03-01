@@ -47,7 +47,9 @@ Following these instructions will get you started::
     git clone --depth=1 https://github.com/zsh-users/zsh-autosuggestions
     git clone --depth=1 https://github.com/zsh-users/zsh-completions
     git clone --depth=1 https://github.com/zsh-users/zsh-syntax-highlighting
-    git clone --depth=1 https://github.com/pkulev/zsh-rustup-completion
+    git clone --depth=1 https://github.com/pkulev/zsh-rustup-completion rustup
+    git clone --depth=1 https://github.com/chisui/zsh-nix-shell.git nix-shell
+    git clone --depth=1 https://github.com/spwhitt/nix-zsh-completions.git
    )
 
    # Fetch this repository
