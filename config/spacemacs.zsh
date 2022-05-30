@@ -58,10 +58,11 @@ fi
 	export PATH="${HOME}/.emacs.d/private/mmc/scripts:${PATH}"
 
 
-# When in emacs / spacemacs, alias vi to em and use emcommit for git commit
-# messages.
+# When in emacs / spacemacs, alias vi to em, use emcommit for git commit
+# messages, and use emless as PAGER
 if [[ -n "${INSIDE_EMACS}" ]] && command -v em 2>&1 >/dev/null; then
   alias vi='em'
-  export GIT_EDITOR=emcommit
+  export GIT_EDITOR='emcommit'
+  #export PAGER='emless'
 fi
 
