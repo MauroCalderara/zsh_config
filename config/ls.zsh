@@ -23,7 +23,7 @@
 # POSSIBILITY OF SUCH DAMAGE.
 
 case "${MMC_TMP_UNAME}" in
-  "Linux)"
+  "Linux")
     alias ls='ls --color=auto --classify'
   ;;
   "Darwin")
