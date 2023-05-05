@@ -22,12 +22,10 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
-case "${MMC_TMP_UNAME}" in
-  "Linux)"
-    alias ls='ls --color=auto --classify'
-  ;;
-  "Darwin")
-    alias ls='ls -FG'
-  ;;
-esac
-
+if [[ "${TMP_MMC_UNAME}" == "Darwin" ]]; then
+  if [[ -d "/opt/homebrew/bin" ]]; then
+    export PATH="/opt/homebrew/bin:${PATH}"
+  elif [[ -d "/usr/local/Homebrew/bin" ]]; then
+    export PATH="/usr/local/Homebrew/bin:${PATH}"
+  fi
+fi
