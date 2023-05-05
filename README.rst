@@ -18,11 +18,12 @@ below on how to install that specific font - or another one with the same symbol
 Installation
 -------------
 
-The configuration assumes that `oh-my-zsh <https://ohmyz.sh/>`_ is available
-under ``~/.zsh`` and `powerlevel10k <https://github.com/romkatv/powerlevel10k>`_
-under ``~/.zsh/custom/themes/powerlevel10k``, respectively. A suggestion for
-``~/.zshrc`` as well as an entry hook for use under ``~/.zsh/custom`` are part
-of the repository as well.
+Noet:this configuration assumes some things that are non-standard, namely that
+`oh-my-zsh <https://ohmyz.sh/>`_ is available under ``~/.zsh`` and
+`powerlevel10k <https://github.com/romkatv/powerlevel10k>`_ under
+``~/.zsh/custom/themes/powerlevel10k``, respectively. See below for how to set
+things up accordingly. A suggestion for ``~/.zshrc`` as well as an entry hook
+for use under ``~/.zsh/custom`` are part of the repository as well.
 
 Following these instructions will get you started::
 
@@ -33,32 +34,32 @@ Following these instructions will get you started::
    # To install a downloaded font for your user extract the archive to
    # ~/.local/share/fonts, then run fc-cache -f -v and adjust the font in the
    # terminal that you use to run zsh.
-   
+
    # Fetch oh-my-zsh (alternatively one can follow the official instructions
    # and move things into place afterwards)
    git clone --depth=1 https://github.com/ohmyzsh/ohmyzsh.git ~/.zsh
-   
+
    # Fetch powerlevel10k
    git clone --depth=1 https://github.com/romkatv/powerlevel10k.git \
      ~/.zsh/custom/themes/powerlevel10k
 
    # Optional: fetch plugins I use
-   (cd ~/.zsh/custom/plugins
-    git clone --depth=1 https://github.com/zsh-users/zsh-autosuggestions
-    git clone --depth=1 https://github.com/zsh-users/zsh-completions
-    git clone --depth=1 https://github.com/zsh-users/zsh-syntax-highlighting
-    git clone --depth=1 https://github.com/pkulev/zsh-rustup-completion rustup
-    git clone --depth=1 https://github.com/chisui/zsh-nix-shell.git nix-shell
+   (cd ~/.zsh/custom/plugins && \
+    git clone --depth=1 https://github.com/zsh-users/zsh-autosuggestions && \
+    git clone --depth=1 https://github.com/zsh-users/zsh-completions && \
+    git clone --depth=1 https://github.com/zsh-users/zsh-syntax-highlighting && \
+    git clone --depth=1 https://github.com/pkulev/zsh-rustup-completion rustup && \
+    git clone --depth=1 https://github.com/chisui/zsh-nix-shell.git nix-shell && \
     git clone --depth=1 https://github.com/spwhitt/nix-zsh-completions.git
    )
 
    # Fetch this repository
    git clone --depth=1 https://github.com/MauroCalderara/zsh_config.git \
      ~/.zsh/custom/mmc
-   
+
    # Activate the entry hook
    (cd ~/.zsh/custom && ln -s mmc/entry_hook mmc.zsh)
-   
+
    # Activate the .zshrc (this will fail if you already have a ~/.zshrc)
    (cd ~ && ln -s .zsh/custom/mmc/dot_zshrc .zshrc)
 
