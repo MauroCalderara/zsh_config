@@ -22,7 +22,7 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
-TMC_MMC_UNAME="$(uname)"
+TMP_MMC_UNAME="$(uname)"
 
 # Entry point for mmc/ subfolder
 TMP_MMC_DIR="${HOME}/.zsh/custom/mmc"
