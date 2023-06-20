@@ -55,6 +55,7 @@ HISTFILE="${ZSH_DATA}/history"
 _Z_DATA="${ZSH_DATA}/z"
 
 plugins=(
+  direnv
   git
   history-substring-search
   z
