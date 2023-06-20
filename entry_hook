@@ -22,13 +22,10 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
-TMP_MMC_UNAME="$(uname)"
-
 # Entry point for mmc/ subfolder
 TMP_MMC_DIR="${HOME}/.zsh/custom/mmc"
 for i in ${TMP_MMC_DIR}/config/*.zsh ${TMP_MMC_DIR}/functions/*.zsh; do
   source ${i}
 done
-
-unset TMP_MMC_DIR TMP_MMC_UNAME
+unset TMP_MMC_DIR
 

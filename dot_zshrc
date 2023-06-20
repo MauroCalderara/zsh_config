@@ -22,6 +22,8 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
+
+###########################################################
 # Enable Powerlevel10k instant prompt. Should stay close to
 # the top of ~/.zshrc.
 # Initialization code that may require console input (password
@@ -34,6 +36,15 @@ fi
 export ZSH="${HOME}/.zsh"
 export ZSH_DATA="${HOME}/.zsh/custom/data"
 mkdir -p "${ZSH_DATA}"
+
+######################################
+# Preloaded (before oh-my-zsh) configs
+
+TMP_MMC_UNAME="$(uname)" # Unset at EOF
+for preload_file in ${ZSH}/custom/mmc/preload/*.zsh; do
+  source "${preload_file}"
+done
+
 
 ####################
 # Oh-my-zsh settings
@@ -71,3 +82,4 @@ done
 
 source "${ZSH}/oh-my-zsh.sh"
 
+unset TMP_MMC_UNAME
