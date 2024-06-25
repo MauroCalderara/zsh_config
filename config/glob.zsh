@@ -23,3 +23,4 @@
 # POSSIBILITY OF SUCH DAMAGE.
 
 setopt extendedglob
+unsetopt nomatch
