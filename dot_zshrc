@@ -80,6 +80,8 @@ for installed_plugin in ${ZSH}/custom/plugins/*; do
      plugins+=(${installed_plugin##*/})
 done
 
+[[ -n $(command -v fzf) ]] && plugins+=(fzf)
+
 source "${ZSH}/oh-my-zsh.sh"
 
 unset TMP_MMC_UNAME
