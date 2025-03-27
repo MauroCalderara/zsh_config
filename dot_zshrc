@@ -1,4 +1,4 @@
-# Copyright 2021 Mauro Calderara
+# Copyright 2025 Mauro Calderara
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
@@ -41,8 +41,8 @@ mkdir -p "${ZSH_DATA}"
 # Preloaded (before oh-my-zsh) configs
 
 TMP_MMC_UNAME="$(uname)" # Unset at EOF
-for preload_file in ${ZSH}/custom/mmc/preload/*.zsh; do
-  source "${preload_file}"
+for pre_config_file in ${ZSH}/custom/mmc/pre_config/*.zsh; do
+  source "${pre_config_file}"
 done
 
 
