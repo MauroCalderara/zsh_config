@@ -53,11 +53,6 @@ if [[ "${INSIDE_EMACS}" = "vterm" && ((${plugins[(Ie)"emacs"]})) ]]; then
 
 fi
 
-# Custom path settings
-[[ -d "${HOME}/.emacs.d/private/mmc/scripts" ]] && \
-	export PATH="${HOME}/.emacs.d/private/mmc/scripts:${PATH}"
-
-
 # When in emacs / spacemacs, alias vi to em, use emcommit for git commit
 # messages, and use emless as PAGER
 if [[ -n "${INSIDE_EMACS}" ]] && command -v em 2>&1 >/dev/null; then

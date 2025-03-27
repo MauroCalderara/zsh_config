@@ -22,4 +22,22 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
-export PATH="${HOME}/bin:${PATH}"
+
+# All settings related to the PATH variable. Ordering obviously matters
+
+[[ -d "/snap/bin" ]] && PATH="/snap/bin:${PATH}"
+
+[[ -d "/opt/homebrew/bin" ]] && PATH="/opt/homebrew/bin:${PATH}"
+[[ -d "/usr/local/Homebrew/bin" ]] && PATH="/usr/local/Homebrew/bin:${PATH}"
+
+[[ -n "${GOPATH}" && -d "${GOPATH}/bin" ]] && PATH="${GOPATH}/bin:${PATH}"
+
+[[ -d "${HOME}/.cargo/bin" ]] && PATH="${HOME}/.cargo/bin:${PATH}"
+
+[[ -d "${HOME}/.emacs.d/private/mmc/scripts" ]] && \
+  PATH="${HOME}/.emacs.d/private/mmc/scripts:${PATH}"
+
+[[ -d "${HOME}/local/bin" ]] && PATH="${HOME}/local/bin:${PATH}"
+[[ -d "${HOME}/bin" ]] && PATH="${HOME}/bin:${PATH}"
+
+export PATH
