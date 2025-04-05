@@ -67,11 +67,12 @@ _Z_DATA="${ZSH_DATA}/z"
 
 plugins=(
   brew
-  direnv
   git
   history-substring-search
   z
 )
+[[ -n $(command -v fzf) ]] && plugins+=(fzf)
+[[ -n $(command -v direnv) ]] && plugins+=(direnv)
 
 # Autodetect and load custom plugins (except those in ignored_plugins)
 ignored_plugins=(example)
@@ -80,7 +81,6 @@ for installed_plugin in ${ZSH}/custom/plugins/*; do
      plugins+=(${installed_plugin##*/})
 done
 
-[[ -n $(command -v fzf) ]] && plugins+=(fzf)
 
 source "${ZSH}/oh-my-zsh.sh"
 
