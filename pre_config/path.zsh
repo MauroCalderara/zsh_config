@@ -1,4 +1,4 @@
-# Copyright 2023 Mauro Calderara
+# Copyright 2025 Mauro Calderara
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
@@ -23,7 +23,8 @@
 # POSSIBILITY OF SUCH DAMAGE.
 
 
-# All settings related to the PATH variable. Ordering obviously matters
+# All settings related to the PATH variable. Ordering obviously matters. This
+# file is loaded before oh-my-zsh starts up
 
 [[ -d "/snap/bin" ]] && PATH="/snap/bin:${PATH}"
 
