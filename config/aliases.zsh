@@ -23,24 +23,4 @@
 # POSSIBILITY OF SUCH DAMAGE.
 
 
-# All settings related to the PATH variable. Ordering obviously matters. This
-# file is loaded before oh-my-zsh starts up
-
-[[ -x "/usr/libexec/path_helper" ]] && eval "$(/usr/libexec/path_helper)"
-
-[[ -d "/snap/bin" ]] && PATH="/snap/bin:${PATH}"
-
-[[ -d "/opt/homebrew/bin" ]] && PATH="/opt/homebrew/bin:${PATH}"
-[[ -d "/usr/local/Homebrew/bin" ]] && PATH="/usr/local/Homebrew/bin:${PATH}"
-
-[[ -n "${GOPATH}" && -d "${GOPATH}/bin" ]] && PATH="${GOPATH}/bin:${PATH}"
-
-[[ -d "${HOME}/.cargo/bin" ]] && PATH="${HOME}/.cargo/bin:${PATH}"
-
-[[ -d "${HOME}/.emacs.d/private/mmc/scripts" ]] && \
-  PATH="${HOME}/.emacs.d/private/mmc/scripts:${PATH}"
-
-[[ -d "${HOME}/local/bin" ]] && PATH="${HOME}/local/bin:${PATH}"
-[[ -d "${HOME}/bin" ]] && PATH="${HOME}/bin:${PATH}"
-
-export PATH
+#alias example="really something --else"
