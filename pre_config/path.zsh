@@ -31,7 +31,7 @@
 [[ -d "/snap/bin" ]] && PATH="/snap/bin:${PATH}"
 
 [[ -d "/opt/homebrew/bin" ]] && PATH="/opt/homebrew/bin:${PATH}"
-[[ -d "/usr/local/Homebrew/bin" ]] && PATH="/usr/local/Homebrew/bin:${PATH}"
+[[ -d "/opt/homebrew/opt/llvm/bin" ]] && PATH="/opt/homebrew/opt/llvm/bin:${PATH}"
 
 [[ -n "${GOPATH}" && -d "${GOPATH}/bin" ]] && PATH="${GOPATH}/bin:${PATH}"
 
