@@ -1,4 +1,4 @@
-# Copyright 2021 Mauro Calderara
+# Copyright 2025 Mauro Calderara
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
@@ -22,12 +22,23 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
-case "${TMP_MMC_UNAME}" in
-  "Linux")
-    alias ls='ls --color=auto --classify'
-  ;;
-  "Darwin")
-    alias ls='ls -FG'
-  ;;
-esac
 
+# All settings related to the PATH variable. Ordering matters.
+
+[[ -x "/usr/libexec/path_helper" ]] && eval "$(/usr/libexec/path_helper)"
+
+[[ -d "/snap/bin" ]] && PATH="/snap/bin:${PATH}"
+
+[[ -d "/opt/homebrew/opt/llvm/bin" ]] && PATH="/opt/homebrew/opt/llvm/bin:${PATH}"
+
+[[ -n "${GOPATH}" && -d "${GOPATH}/bin" ]] && PATH="${GOPATH}/bin:${PATH}"
+
+[[ -d "${HOME}/.cargo/bin" ]] && PATH="${HOME}/.cargo/bin:${PATH}"
+
+[[ -d "${HOME}/.emacs.d/private/mmc/scripts" ]] && \
+  PATH="${HOME}/.emacs.d/private/mmc/scripts:${PATH}"
+
+[[ -d "${HOME}/local/bin" ]] && PATH="${HOME}/local/bin:${PATH}"
+[[ -d "${HOME}/bin" ]] && PATH="${HOME}/bin:${PATH}"
+
+export PATH

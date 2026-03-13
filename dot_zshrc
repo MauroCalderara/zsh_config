@@ -33,17 +33,10 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
-export ZSH="${HOME}/.zsh"
-export ZSH_DATA="${HOME}/.zsh/custom/data"
+export ZSH_DATA="${ZSH}/custom/data"
 mkdir -p "${ZSH_DATA}"
 
-######################################
-# Preloaded (before oh-my-zsh) configs
-
 TMP_MMC_UNAME="$(uname)" # Unset at EOF
-for pre_config_file in ${ZSH}/custom/mmc/pre_config/*.zsh; do
-  source "${pre_config_file}"
-done
 
 
 ####################

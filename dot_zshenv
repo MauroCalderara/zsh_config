@@ -1,4 +1,4 @@
-# Copyright 2025 Mauro Calderara
+# Copyright 2026 Mauro Calderara
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
@@ -23,24 +23,16 @@
 # POSSIBILITY OF SUCH DAMAGE.
 
 
-# All settings related to the PATH variable. Ordering obviously matters. This
-# file is loaded before oh-my-zsh starts up
+# Environment setup for all shells (interactive and non-interactive).
 
-[[ -x "/usr/libexec/path_helper" ]] && eval "$(/usr/libexec/path_helper)"
+# Guard against double-sourcing
+[[ -n "$_MMC_ZSHENV_LOADED" ]] && return
+_MMC_ZSHENV_LOADED=1
 
-[[ -d "/snap/bin" ]] && PATH="/snap/bin:${PATH}"
+export ZSH="${HOME}/.zsh"
 
-[[ -d "/opt/homebrew/bin" ]] && PATH="/opt/homebrew/bin:${PATH}"
-[[ -d "/opt/homebrew/opt/llvm/bin" ]] && PATH="/opt/homebrew/opt/llvm/bin:${PATH}"
-
-[[ -n "${GOPATH}" && -d "${GOPATH}/bin" ]] && PATH="${GOPATH}/bin:${PATH}"
-
-[[ -d "${HOME}/.cargo/bin" ]] && PATH="${HOME}/.cargo/bin:${PATH}"
-
-[[ -d "${HOME}/.emacs.d/private/mmc/scripts" ]] && \
-  PATH="${HOME}/.emacs.d/private/mmc/scripts:${PATH}"
-
-[[ -d "${HOME}/local/bin" ]] && PATH="${HOME}/local/bin:${PATH}"
-[[ -d "${HOME}/bin" ]] && PATH="${HOME}/bin:${PATH}"
-
-export PATH
+# Source order matters: go.zsh sets GOPATH which path.zsh uses
+[[ -x "/opt/homebrew/bin/brew" ]] && eval "$(/opt/homebrew/bin/brew shellenv)"
+source "${ZSH}/custom/mmc/env/go.zsh"
+source "${ZSH}/custom/mmc/env/nix.zsh"
+source "${ZSH}/custom/mmc/env/path.zsh"
