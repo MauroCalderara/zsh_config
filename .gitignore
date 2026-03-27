@@ -1,2 +1,3 @@
 config/local.zsh
+env/local.zsh
 .#*
