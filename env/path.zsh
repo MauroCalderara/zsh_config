@@ -33,7 +33,12 @@
 
 [[ -n "${GOPATH}" && -d "${GOPATH}/bin" ]] && PATH="${GOPATH}/bin:${PATH}"
 
-[[ -d "${HOME}/.cargo/bin" ]] && PATH="${HOME}/.cargo/bin:${PATH}"
+
+if [[ -f "${HOME}/.cargo/env" ]]; then
+  source "${HOME}/.cargo/env"
+elif [[ -d "${HOME}/.cargo/bin" ]]; then
+  PATH="${HOME}/.cargo/bin:${PATH}"
+fi
 
 [[ -d "${HOME}/.emacs.d/private/mmc/scripts" ]] && \
   PATH="${HOME}/.emacs.d/private/mmc/scripts:${PATH}"

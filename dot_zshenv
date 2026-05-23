@@ -33,6 +33,7 @@ export ZSH="${HOME}/.zsh"
 
 # Source order matters: go.zsh sets GOPATH which path.zsh uses
 [[ -x "/opt/homebrew/bin/brew" ]] && eval "$(/opt/homebrew/bin/brew shellenv)"
-source "${ZSH}/custom/mmc/env/go.zsh"
-source "${ZSH}/custom/mmc/env/nix.zsh"
-source "${ZSH}/custom/mmc/env/path.zsh"
+[[ -e "${ZSH}/custom/mmc/env/go.zsh" ]] && source "${ZSH}/custom/mmc/env/go.zsh"
+[[ -e "${ZSH}/custom/mmc/env/nix.zsh" ]] && source "${ZSH}/custom/mmc/env/nix.zsh"
+[[ -e "${ZSH}/custom/mmc/env/path.zsh" ]] && source "${ZSH}/custom/mmc/env/path.zsh"
+[[ -e "${ZSH}/custom/mmc/env/local.zsh" ]] && source "${ZSH}/custom/mmc/env/local.zsh"
