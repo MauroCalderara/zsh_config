@@ -43,6 +43,7 @@ fi
 [[ -d "${HOME}/.emacs.d/private/mmc/scripts" ]] && \
   PATH="${HOME}/.emacs.d/private/mmc/scripts:${PATH}"
 
+[[ -d "${HOME}/.local/bin" ]] && PATH="${HOME}/.local/bin:${PATH}"
 [[ -d "${HOME}/local/bin" ]] && PATH="${HOME}/local/bin:${PATH}"
 [[ -d "${HOME}/bin" ]] && PATH="${HOME}/bin:${PATH}"
 
